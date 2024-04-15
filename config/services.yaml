@@ -20,5 +20,7 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    App\Service\EmailService:
+        arguments: ["%env(LOGIN_SMTP)%", "%env(PASSWORD_SMTP)%", "%env(SERVER_SMTP)%", "%env(PORT_SMTP)%"]
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
