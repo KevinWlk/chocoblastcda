@@ -15,23 +15,26 @@ class UserService implements ServiceInterface{
         if (!$this->userRepository->findOneBy(["email"=>$object->getEmail()])){
             $this->em->persist($object);
             $this->em->flush();
+        } else {
+            throw new \Exception("Le compte existe déjà.");
         }
-        return throw new \Exception("Le compte existe déjà.");
     }
     public function update(object $object){
         if ($this->userRepository->findOneBy(["email"=>$object->getEmail()])){
         $this->em->persist($object);
         $this->em->flush();
+        } else {
+            throw new \Exception("Le compte n'existe pas.");
         }
-        return throw new \Exception("Le compte n'existe pas.");
-
     }
     public function delete(int $id){
-        if ($this->userRepository->find($id)){
-        $this->em->remove($this->userRepository->find($id));
+        $user=$this->userRepository->find($id);
+        if ($user){
+        $this->em->remove($user);
         $this->em->flush();
+        } else {
+            throw new \Exception("Le compte n'existe pas.");
         }
-        return throw new \Exception("Le compte n'existe pas.");
     }
     public function findOneBy(int $id):Object{
         return $this->userRepository->find($id)??throw new \Exception('Le compte n\'existe pas');
